@@ -1,20 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import Stack from './StackNavigation';
+import HomeScreen from './screens/HomeScreen'; // Importa tus pantallas
+import LoginScreen from './login';
+import RegistrationScreen from './register';
+import CompleteProfileScreen from './complete_profile';
 
-export default function App() {
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Inicio">
+        <Stack.Screen name="Inicio" component={HomeScreen} />
+        <Stack.Screen name="Iniciar Sesión" component={LoginScreen} />
+        <Stack.Screen name="Registro" component={RegistrationScreen} />
+        <Stack.Screen name="Completar_Perfil" component={CompleteProfileScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
+
+
+
+
+
+/*import React from 'react';
+import AppNavigation from './navigation/appNavigation'; // Ajusta la ruta según sea necesario
+import LoginScreen from './login';
+//import InteractiveImage from './screens/InteractiveImage';
+
+function App() {
+  return (
+  
+      //<AppNavigation />
+      <LoginScreen/>
+
+  );
+}
+
+export default App;
+*/
