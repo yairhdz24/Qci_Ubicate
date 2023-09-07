@@ -8,13 +8,27 @@ const LoginScreen = () => {
   const [avatarModalVisible, setAvatarModalVisible] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState(null);
 
+  const users = [
+    { username: 'yair', password: 'admin' },
+    { username: 'admin', password: 'admin' },
+    // mas usuarios
+  ];
+  
   const handleLogin = () => {
-    // Simular un inicio de sesión exitoso con un usuario y contraseña específicos
-    if (username === 'papiyair' && password === 'admin') {
+     // Obtener el valor ingresado por el usuario en el campo de usuario y contraseña
+    const addminUsername = username;
+    const addminPassword = password;
+   
+     // Comprobar si el usuario y la contraseña coinciden con las credenciales de administrador
+     const isAdmin = users.some(user => user.username === addminUsername && user.password === addminPassword);
+     if (isAdmin) {
+      // Inicio de sesion como administrador
       setLoggedIn(true);
+    } else {
+      // Credenciales incorrectas o no es un administrador
+      alert('Usuario o Contraseña incorrecta\n Por favor Registrate');
     }
-  };
-
+}; 
   const handleLogout = () => {
     // Cerrar sesión al cambiar el estado a "deslogueado"
     setLoggedIn(false);
@@ -55,7 +69,7 @@ const LoginScreen = () => {
             <Text style={styles.label}>Usuario:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Ingrese su usuario"
+              placeholder="alumno@Cucei.com"
               value={username}
               onChangeText={(text) => setUsername(text)}
             />
@@ -69,7 +83,13 @@ const LoginScreen = () => {
               secureTextEntry={true}
             />
 
-            <Button title="Iniciar Sesión" onPress={handleLogin} />
+            <TouchableOpacity
+              style={[styles.button, { backgroundColor: "#0b34b0" }]}
+              onPress={handleLogin}
+            >
+              <Text style={styles.buttonText}>Iniciar Sesión</Text>
+            </TouchableOpacity>
+      
           </View>
         )}
 
@@ -104,7 +124,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '##E4EDF9', // Color de fondo
+    backgroundColor: '#E4EDF9', // Color de fondo
   },
   loginBox: {
     width: '80%',
@@ -129,7 +149,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: 'purple', // Color del borde de los campos de texto
+    borderColor: 'black', // Color del borde de los campos de texto
     borderRadius: 5,
     padding: 10,
     marginTop: 5,
@@ -168,6 +188,18 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     marginVertical: 10,
+  },
+  button: {
+    backgroundColor: "#0b34b0",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

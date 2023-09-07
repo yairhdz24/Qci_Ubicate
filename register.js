@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Asegúrate de reemplazar 'FontAwesome' por el nombre de la fuente de iconos que estás utilizando
 import { useNavigation } from '@react-navigation/native';
-
-
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
@@ -11,8 +9,6 @@ const RegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
-
-
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -24,12 +20,12 @@ const RegisterScreen = () => {
     setIsRegistered(true);
   };
 
-  const navigation = useNavigation(); // Obtene la propiedad navigacion del completar
+  const navigation = useNavigation(); // Obtene la propiedad navegación
 
   const handleCompleteProfile = () => {
     // Aquí puedes redirigir al usuario a la pantalla de "CompleteProfileScreen"
     // Puedes usar la navegación de tu aplicación para hacer esto.
-    navigation.navigate('Completar_Perfil');
+    navigation.navigate('Completar Perfil');
   };
 
   return (
@@ -43,10 +39,10 @@ const RegisterScreen = () => {
         </View>
       ) : (
         <View>
-          <Text style={styles.label}>Correo Electrónico / Usuario:</Text>
+          <Text style={styles.label}>Correo Electrónico: </Text>
           <TextInput
             style={styles.input}
-            placeholder="Ingresa tu correo o usuario"
+            placeholder="alumno@cucei.com"
             value={email}
             onChangeText={(text) => setEmail(text)}
           />
@@ -63,8 +59,8 @@ const RegisterScreen = () => {
             <TouchableOpacity onPress={togglePasswordVisibility} style={styles.passwordToggle}>
               <Icon
                 name={showPassword ? 'eye-slash' : 'eye'}
-                size={20}
-                color="purple" // Puedes personalizar el color del icono aquí
+                size={18}
+                color="blue" // Puedes personalizar el color del icono aquí
               />
             </TouchableOpacity>
           </View>
@@ -78,7 +74,9 @@ const RegisterScreen = () => {
             onChangeText={(text) => setConfirmPassword(text)}
           />
 
-          <Button title="Registrarse" onPress={handleRegister} />
+          <TouchableOpacity style={styles.customButton} onPress={handleRegister}>
+            <Text style={styles.buttonText}>Registrarse</Text>
+          </TouchableOpacity>
         </View>
       )}
     </View>
@@ -99,7 +97,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: 'purple',
+    borderColor: 'black',
     borderRadius: 5,
     padding: 10,
     marginTop: 5,
@@ -110,7 +108,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'purple',
+    borderColor: 'black',
     borderRadius: 5,
     marginTop: 5,
     marginBottom: 15,
@@ -128,9 +126,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  completeProfileButton: {
+  customButton: {
     marginTop: 15,
-    backgroundColor: 'purple',
+    backgroundColor: '#0b34b0',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -139,6 +137,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  completeProfileButton: {
+    marginTop: 15,
+    backgroundColor: '#0b34b0',
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
   },
 });
 
