@@ -14,12 +14,25 @@ const CompleteProfileScreen = () => {
     "Licenciatura en Matemáticas LIMA",
     "Licenciatura en Física LIFI",
     "Licenciatura en Química LQUI",
-    // Agrega el resto de las opciones aquí
+    "Licenciatura en Químico Farmacéutico Biólogo LQFB",
+    "Licenciatura en Ciencia de Materiales LCMA",
+    "Ingeniería Química INQU",
+    "Ingeniería Civil ICIV",
+    "Ingeniería en Topografía Geomática ITOG",
+    "Ingeniería en Alimentos y Biotecnología LIAB/LINA",
+    "Ingeniería Industrial INDU",
+    "Ingeniería Mecánica Eléctrica INME",
+    "Ingeniería en Logística y Transporte LOGT",
+    "Ingeniería en Informática INFO",
+    "Ingeniería Biomédica INBI",
+    "Ingeniería en Computación INCO",
+    "Ingeniería en Comunicaciones y Electrónica INCE",
+    "Ingeniería Fotónica IGFO",
+    "Ingeniería Robótica INRO"
   ];
 
   const handleCompleteProfile = () => {
-    // Aquí puedes agregar la lógica para completar el perfil del usuario
-    // Por ahora, solo marcamos el perfil como completo
+    // Por ahora, solo marcamos el perfil como completo una vez que se complete su registro
     setIsProfileComplete(true);
   };
 
