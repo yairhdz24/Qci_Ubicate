@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Modal, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Modal, TouchableOpacity, Image, ScrollView } from 'react-native';
 
 const LoginScreen = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -7,34 +7,63 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
   const [avatarModalVisible, setAvatarModalVisible] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState(null);
+  const [selectedColor, setSelectedColor] = useState('#FFFFFF');
 
   const users = [
     { username: 'yair', password: 'admin' },
     { username: 'admin', password: 'admin' },
     // mas usuarios
   ];
+
+  const avatarOptions = [
+    { source: require('./assets/Iconos_animales/ajolote.png') },
+    { source: require('./assets/Iconos_animales/abeja.png') },
+    { source: require('./assets/Iconos_animales/cangrejo.png') },
+    { source: require('./assets/Iconos_animales/cucaracha.png') },
+    { source: require('./assets/Iconos_animales/Tortuga.png') },
+    { source: require('./assets/Iconos_animales/aguila.png') },
+    { source: require('./assets/Iconos_animales/Conejo.png') },
+    { source: require('./assets/Iconos_animales/coolcat.png') },
+    { source: require('./assets/Iconos_animales/elefante.png') },
+    { source: require('./assets/Iconos_animales/Leon.png') },
+    { source: require('./assets/Iconos_animales/mono.png') },
+    { source: require('./assets/Iconos_animales/vaca.png') },
+    { source: require('./assets/Iconos_animales/tigre.png') },
+    { source: require('./assets/Iconos_animales/oveja.png') },
+    { source: require('./assets/Iconos_animales/perro.png') }
+  ];
+
+  const colorOptions = ['#FF0000', '#3498db', '#2ecc71', '#FFA500', '#FFD700', '#8B4513', '#808080'];
   
   const handleLogin = () => {
-     // Obtener el valor ingresado por el usuario en el campo de usuario y contraseña
-    const addminUsername = username;
-    const addminPassword = password;
+    // Obtener el valor ingresado por el usuario en el campo de usuario y contraseña
+    const adminUsername = username;
+    const adminPassword = password;
    
-     // Comprobar si el usuario y la contraseña coinciden con las credenciales de administrador
-     const isAdmin = users.some(user => user.username === addminUsername && user.password === addminPassword);
-     if (isAdmin) {
+    // Comprobar si el usuario y la contraseña coinciden con las credenciales de administrador
+    const isAdmin = users.some(user => user.username === adminUsername && user.password === adminPassword);
+    if (isAdmin) {
       // Inicio de sesion como administrador
       setLoggedIn(true);
     } else {
       // Credenciales incorrectas o no es un administrador
-      alert('Usuario o Contraseña incorrecta\n Por favor Registrate');
+      alert('Usuario o Contraseña incorrecta\nPor favor Registrate');
     }
-}; 
+  }; 
+
   const handleLogout = () => {
     // Cerrar sesión al cambiar el estado a "deslogueado"
     setLoggedIn(false);
     setUsername('');
     setPassword('');
     setSelectedAvatar(null);
+    setSelectedColor('#FFFFFF');
+  };
+
+  const setColor = (colorAvatar) => {
+    // Asignamos el color seleccionado al avatar del perfil
+    setSelectedColor(colorAvatar);
+    setAvatarModalVisible(false);
   };
 
   const selectAvatar = (avatar) => {
@@ -50,7 +79,7 @@ const LoginScreen = () => {
             <Text style={styles.welcomeText}>¡Bienvenido, {username}!</Text>
             {selectedAvatar ? (
               <View style={styles.avatarContainer}>
-                <Image source={selectedAvatar} style={styles.avatar} />
+                <Image source={selectedAvatar} style={[styles.avatar, { backgroundColor: selectedColor }]} />
               </View>
             ) : null}
             <Button title="Cerrar Sesión" onPress={handleLogout} />
@@ -60,7 +89,7 @@ const LoginScreen = () => {
             <TouchableOpacity onPress={() => setAvatarModalVisible(true)}>
               <View style={styles.avatarContainer}>
                 {selectedAvatar ? (
-                  <Image source={selectedAvatar} style={styles.avatar} />
+                  <Image source={selectedAvatar} style={[styles.avatar, { backgroundColor: selectedColor }]} />
                 ) : (
                   <View style={styles.avatarPlaceholder} />
                 )}
@@ -86,38 +115,50 @@ const LoginScreen = () => {
             <TouchableOpacity
               style={[styles.button, { backgroundColor: "#0b34b0" }]}
               onPress={handleLogin}
+              
             >
               <Text style={styles.buttonText}>Iniciar Sesión</Text>
+
             </TouchableOpacity>
-      
           </View>
         )}
 
-        <Modal visible={avatarModalVisible} animationType="slide" transparent={true}>
-          <View style={styles.modalContainer}>
+</View>
+      <Modal visible={avatarModalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Seleccionar Tu Avatar</Text>
-            <TouchableOpacity onPress={() => selectAvatar(require('./assets/Iconos_animales/ajolote.png'))}>
-              <Image source={require('./assets/Iconos_animales/ajolote.png')} style={styles.avatarOption} />
+            <View style={styles.avatarGrid}>
+              {avatarOptions.map((avatar, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => selectAvatar(avatar.source)}
+                >
+                  <Image source={avatar.source} style={styles.avatarOption} />
+                </TouchableOpacity>
+              ))}
+            </View>
+            <Text style={styles.modalTitle}>Seleccionar Color de Fondo</Text>
+            <View style={styles.colorGrid}>
+              {colorOptions.map((color, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => setColor(color)}
+                >
+                  <View style={[styles.colorOption, { backgroundColor: color }]}></View>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <TouchableOpacity style={styles.closeButton}>
+              <Text style={styles.buttonText} onPress={() => setAvatarModalVisible(false)}>Cerrar</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => selectAvatar(require('./assets/Iconos_animales/abeja.png'))}>
-              <Image source={require('./assets/Iconos_animales/abeja.png')} style={styles.avatarOption} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => selectAvatar(require('./assets/Iconos_animales/cangrejo.png'))}>
-              <Image source={require('./assets/Iconos_animales/cangrejo.png')} style={styles.avatarOption} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => selectAvatar(require('./assets/Iconos_animales/Tortuga.png'))}>
-                <Image source={require('./assets/Iconos_animales/Tortuga.png')} style={styles.avatarOption} />
-            </TouchableOpacity>             
-            <TouchableOpacity onPress={() => selectAvatar(require('./assets/Iconos_animales/cucaracha.png'))}>
-                <Image source={require('./assets/Iconos_animales/cucaracha.png')} style={styles.avatarOption} />
-            </TouchableOpacity>             
-            <Button title="Cerrar" onPress={() => setAvatarModalVisible(false)} />
           </View>
-        </Modal>
-      </View>
+        </View>
+      </Modal>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -159,34 +200,74 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center', // Centrar verticalmente
   },
+
   avatar: {
     width: 100,
     height: 100,
-    borderRadius: 70,
-    borderWidth: 1.5,
-    borderColor: 'purple', // Color del borde del avatar
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: 'black', // Color del borde del avatar
   },
+
   avatarPlaceholder: {
     width: 100,
     height: 100,
     backgroundColor: 'lightgray',
-    borderRadius: 70,
+    borderRadius: 50,
   },
+
   modalContainer: {
-    flex: 10,
-    justifyContent: 'center',
+    flex: 1,
+    justifyContent: 'center', // Centrar verticalmente en la mitad de la pantalla
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    //paddingTop: 100 // Establecer una altura máxima del 80% de la pantalla
   },
+
+  avatarGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  colorGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  closeButton: {
+    backgroundColor: "#0b34b0",
+    borderRadius: 10,
+    paddingVertical: 10,
+    marginTop: 10,
+  },
+
+  modalContent: {
+    backgroundColor: 'gray',
+    width: '80%',
+    borderRadius: 15,
+    padding: 15
+  },
+ 
   modalTitle: {
+    color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
+    textAlign: 'center'
   },
+
   avatarOption: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 80,
+    height: 80,
+    borderRadius: 10,
+    marginHorizontal: 4,
+    marginVertical: 10,
+  },
+  colorOption: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginHorizontal: 5,
     marginVertical: 10,
   },
   button: {

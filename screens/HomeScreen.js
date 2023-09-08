@@ -17,7 +17,7 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/LOGOAZUL.png')} style={styles.logo} />
+      <Image source={require('../assets/logo2.png')} style={styles.logo} />
       <Text style={styles.title}>¡BIENVENIDO!</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -42,12 +42,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#E4EDF9', // Color de fondo
+    backgroundColor: '#E0E8FA', // Color de fondo
   },
   logo: {
     width: 300,
-    height: 100,
-    marginBottom: 80,
+    height: 200,
+    marginBottom: 100,
+     
   },
   title: {
     fontSize: 24,
