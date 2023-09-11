@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Modal, Pressable } from 'react-native';
+import LottieView from 'lottie-react-native';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 const CompleteProfileScreen = () => {
   const [name, setName] = useState('');
@@ -8,6 +10,7 @@ const CompleteProfileScreen = () => {
   const [selectedCareer, setSelectedCareer] = useState('');
   const [isProfileComplete, setIsProfileComplete] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isConfettiVisible, setIsConfettiVisible] = useState(false);
 
   const careerOptions = [
     "Seleccione una carrera",
@@ -34,16 +37,41 @@ const CompleteProfileScreen = () => {
   const handleCompleteProfile = () => {
     // Por ahora, solo marcamos el perfil como completo una vez que se complete su registro
     setIsProfileComplete(true);
+      // Activa la animación de confeti
+    setIsConfettiVisible(true);
   };
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
+
+  //animacion Json de confeti
+  const Animacion = () => (
+    <LottieView
+        source={require('./confetti.json')}
+        autoPlay
+        loop={false}
+        style={{ width: 500, height: 500 }}
+    />
+  );
+  
+
   return (
+ 
     <View style={styles.container}>
       {isProfileComplete ? (
-        <Text style={styles.profileCompleteText}>Perfil completado. ¡Bienvenido, {username}! :D</Text>
+        <>
+          {isConfettiVisible && (
+            <ConfettiCannon // Muestra la animación de confeti si isConfettiVisible es true
+              count={200} // Cantidad de confeti a mostrar
+              origin={{ x: -10, y: 0 }} // Origen de la explosión de confeti
+              autoStart={true} // Iniciar la animación automáticamente
+              fadeOut={true} // Desvanecer el confeti después de un tiempo
+            />
+          )}
+          <Text style={styles.profileCompleteText}>Perfil completado. ¡Bienvenido, {username}! :D</Text>
+        </>
       ) : (
         <View>
           <Text style={styles.label}>Nombre:</Text>

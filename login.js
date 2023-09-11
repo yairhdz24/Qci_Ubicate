@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, TextInput, Button, StyleSheet, Modal, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { Alert } from 'react-native';
 
 const LoginScreen = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -9,10 +11,15 @@ const LoginScreen = () => {
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [selectedColor, setSelectedColor] = useState('#FFFFFF');
 
+  const [selectedAvatarIndex, setSelectedAvatarIndex] = useState(null);
+  const [selectedColorIndex, setSelectedColorIndex] = useState(null);
+
   const users = [
     { username: 'yair', password: 'admin' },
     { username: 'admin', password: 'admin' },
-    // mas usuarios
+    { username: 'Admin', password: 'Admin' },
+    { username: 'ADMIN', password: 'ADMIN' },
+    // más usuarios
   ];
 
   const avatarOptions = [
@@ -34,22 +41,29 @@ const LoginScreen = () => {
   ];
 
   const colorOptions = ['#FF0000', '#3498db', '#2ecc71', '#FFA500', '#FFD700', '#8B4513', '#808080'];
-  
+
   const handleLogin = () => {
     // Obtener el valor ingresado por el usuario en el campo de usuario y contraseña
     const adminUsername = username;
     const adminPassword = password;
-   
+
     // Comprobar si el usuario y la contraseña coinciden con las credenciales de administrador
     const isAdmin = users.some(user => user.username === adminUsername && user.password === adminPassword);
     if (isAdmin) {
-      // Inicio de sesion como administrador
+      // Inicio de sesión como administrador
       setLoggedIn(true);
     } else {
       // Credenciales incorrectas o no es un administrador
-      alert('Usuario o Contraseña incorrecta\nPor favor Registrate');
+      Alert.alert(
+        'Error de Inicio de Sesión',
+        'Usuario o Contraseña incorrectos.\nPor favor, intenta nuevamente.',
+        {
+          text: 'Aceptar',
+        },
+      );
+
     }
-  }; 
+  };
 
   const handleLogout = () => {
     // Cerrar sesión al cambiar el estado a "deslogueado"
@@ -60,14 +74,22 @@ const LoginScreen = () => {
     setSelectedColor('#FFFFFF');
   };
 
-  const setColor = (colorAvatar) => {
-    // Asignamos el color seleccionado al avatar del perfil
-    setSelectedColor(colorAvatar);
-    setAvatarModalVisible(false);
+  const selectAvatar = (avatarIndex) => {
+    setSelectedAvatarIndex(avatarIndex);
   };
 
-  const selectAvatar = (avatar) => {
-    setSelectedAvatar(avatar);
+  const selectColor = (colorIndex) => {
+    setSelectedColorIndex(colorIndex);
+  };
+
+  const handleAcceptAvatar = () => {
+    // Aplicar los cambios de avatar y color
+    if (selectedAvatarIndex !== null && selectedColorIndex !== null) {
+      setSelectedAvatar(avatarOptions[selectedAvatarIndex].source);
+      setSelectedColor(colorOptions[selectedColorIndex]);
+    }
+
+    // Cerrar el modal
     setAvatarModalVisible(false);
   };
 
@@ -82,7 +104,18 @@ const LoginScreen = () => {
                 <Image source={selectedAvatar} style={[styles.avatar, { backgroundColor: selectedColor }]} />
               </View>
             ) : null}
-            <Button title="Cerrar Sesión" onPress={handleLogout} />
+            <TouchableOpacity
+              style={[styles.button, { backgroundColor: "green" }]}
+              onPress={handleAcceptAvatar}
+            >
+              <Text style={styles.buttonText}>Aceptar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, { backgroundColor: "#0b34b0" }]}
+              onPress={handleLogout}
+            >
+              <Text style={styles.buttonText}>Cerrar sesión</Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <View>
@@ -95,7 +128,7 @@ const LoginScreen = () => {
                 )}
               </View>
             </TouchableOpacity>
-            <Text style={styles.label}>Usuario:</Text>
+            <Text style={styles.label}>Correo Electrónico:</Text>
             <TextInput
               style={styles.input}
               placeholder="alumno@Cucei.com"
@@ -115,7 +148,7 @@ const LoginScreen = () => {
             <TouchableOpacity
               style={[styles.button, { backgroundColor: "#0b34b0" }]}
               onPress={handleLogin}
-              
+
             >
               <Text style={styles.buttonText}>Iniciar Sesión</Text>
 
@@ -123,7 +156,7 @@ const LoginScreen = () => {
           </View>
         )}
 
-</View>
+      </View>
       <Modal visible={avatarModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -132,9 +165,12 @@ const LoginScreen = () => {
               {avatarOptions.map((avatar, index) => (
                 <TouchableOpacity
                   key={index}
-                  onPress={() => selectAvatar(avatar.source)}
+                  onPress={() => selectAvatar(index)}
                 >
-                  <Image source={avatar.source} style={styles.avatarOption} />
+                  <Image source={avatar.source} style={[
+                    styles.avatarOption,
+                    selectedAvatarIndex === index ? { opacity: 0.5 } : null,
+                  ]} />
                 </TouchableOpacity>
               ))}
             </View>
@@ -143,14 +179,18 @@ const LoginScreen = () => {
               {colorOptions.map((color, index) => (
                 <TouchableOpacity
                   key={index}
-                  onPress={() => setColor(color)}
+                  onPress={() => selectColor(index)}
                 >
-                  <View style={[styles.colorOption, { backgroundColor: color }]}></View>
+                  <View style={[
+                    styles.colorOption,
+                    selectedColorIndex === index ? { opacity: 0.5 } : null,
+                    { backgroundColor: color }
+                  ]}></View>
                 </TouchableOpacity>
               ))}
             </View>
             <TouchableOpacity style={styles.closeButton}>
-              <Text style={styles.buttonText} onPress={() => setAvatarModalVisible(false)}>Cerrar</Text>
+              <Text style={styles.buttonText} onPress={handleAcceptAvatar}>Aceptar</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -188,6 +228,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
   },
+
   input: {
     borderWidth: 1,
     borderColor: 'black', // Color del borde de los campos de texto
@@ -221,13 +262,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center', // Centrar verticalmente en la mitad de la pantalla
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    //paddingTop: 100 // Establecer una altura máxima del 80% de la pantalla
+    // paddingTop: 100 // Establecer una altura máxima del 80% de la pantalla
   },
 
   avatarGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    borderRadius: 5
   },
   colorGrid: {
     flexDirection: 'row',
@@ -247,7 +289,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 15
   },
- 
+
   modalTitle: {
     color: 'white',
     fontSize: 20,
