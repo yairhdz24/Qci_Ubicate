@@ -52,7 +52,7 @@ const CompleteProfileScreen = () => {
 // Animación Json de confeti
 const ConfettiAnimation_Json = () => (
   <LottieView
-    source={require('./confetti.json')}
+    source={require('./dark_mode.json')}
     autoPlay
     loop={true}
     style={styles.animation}
@@ -60,12 +60,15 @@ const ConfettiAnimation_Json = () => (
 );
 
 const ConfettiAnimation = () =>(
-    <ConfettiCannon // Muestra la animación de confeti si isConfettiVisible es true
-      count={200} // Cantidad de confeti a mostrar
-      origin={{ x: -10, y: 0 }} // Origen de la explosión de confeti
-      autoStart={true} // Iniciar la animación automáticamente
-      fadeOut={true} // Desvanecer el confeti después de un tiempo
-    />
+   
+  <ConfettiCannon
+  count={75} // Reduzca la cantidad de confeti a la mitad
+  origin={{ x: -10, y: 100 }}
+  autoStart={true}
+  fadeOut={true}
+  fadeOutDuration={10} // Aumenta la duración de desvanecimiento
+/>
+    
   );
 
   return (
@@ -73,7 +76,7 @@ const ConfettiAnimation = () =>(
     <View style={styles.container}>
       {isProfileComplete ? (
         <>
-          {isConfettiVisible && <ConfettiAnimation />}
+          {isConfettiVisible && <ConfettiAnimation_Json />}
         <Text style={styles.profileCompleteText}>¡Bienvenido {username}! Tu perfil ha sido creado</Text>
         
         <TouchableOpacity 
