@@ -13,7 +13,7 @@ const globalScreenOptions = {
     backgroundColor: '#F5FCFF', // Color de fondo de la barra de navegación
   },
   headerTintColor: '#000', // Color del texto de la barra de navegación
-  headerBackTitleVisible: true, // Muestra el botón de regreso con el título
+  headerBackTitleVisible: true, // Muestra el boton de regreso con el titulo "SOLO PARA IOS"
 };
 
 function App() {
@@ -57,8 +57,6 @@ function App() {
 }
 
 export default App;
-
-
 
 /*import React from 'react';
 import AppNavigation from './navigation/appNavigation'; // Ajusta la ruta según sea necesario

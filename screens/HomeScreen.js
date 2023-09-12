@@ -176,8 +176,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    zIndex: 1, // Coloca el círculo por encima de otros elementos
+    zIndex: 1, // Coloca el circulo por encima de otros elementos
   },
+
   logo: { 
     marginTop: -150,
     marginBottom: 50,

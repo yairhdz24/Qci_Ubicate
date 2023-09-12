@@ -104,12 +104,13 @@ const LoginScreen = () => {
                 <Image source={selectedAvatar} style={[styles.avatar, { backgroundColor: selectedColor }]} />
               </View>
             ) : null}
+            { /*
             <TouchableOpacity
               style={[styles.button, { backgroundColor: "green" }]}
               onPress={handleAcceptAvatar}
             >
               <Text style={styles.buttonText}>Aceptar</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>*/ }
             <TouchableOpacity
               style={[styles.button, { backgroundColor: "#0b34b0" }]}
               onPress={handleLogout}
